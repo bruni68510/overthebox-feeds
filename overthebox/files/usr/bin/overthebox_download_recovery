@@ -1,16 +1,19 @@
 #!/bin/sh
 
-MD5ONLINE=`curl --silent http://downloads.overthebox.ovh/stable/x86/64/md5sums | grep openwrt-x86-64-combined-ext4.img.gz | awk '{print $1}'`
+URL_SOURCE=http://www.bruni68510.me/overthebox/
+VERSION=
+IMG_FILE=openwrt-brcm2708-bcm2709-rpi-2-b-ext4-sdcard.bin.gz
+MD5ONLINE=`curl --silent $URL_SOURCE/$VERSION/md5sums | grep $IMG_FILE | awk '{print $1}'`
 
 download() {
     logger "RECOVERY: Downloading the latest stable rom"
-        wget http://downloads.overthebox.ovh/stable/x86/64/openwrt-x86-64-combined-ext4.img.gz -O /recovery/openwrt-x86-64-combined-ext4.img.gz --limit-rate=125k > /dev/null 2>&1
+        wget $URL_SOURCE/$VERSION/$IMG_FILE -O /recovery/$IMG_FILE --limit-rate=125k > /dev/null 2>&1
     logger "RECOVERY: Finshed Downloading the lastest rom"
 }
 
 checksum() {
 	for i in `seq 1 3` ; do
-		MD5LOCAL=$(md5sum /recovery/openwrt-x86-64-combined-ext4.img.gz | grep openwrt-x86-64-combined-ext4.img.gz | awk '{print $1}')
+		MD5LOCAL=$(md5sum /recovery/$IMG_FILE | grep $IMG_FILE | awk '{print $1}')
 		if [ "$MD5LOCAL" == "$MD5ONLINE"  ] ; then
 			logger "RECOVERY: Download verified successfuly"
 			exit 0
@@ -22,14 +25,14 @@ checksum() {
 	done
 }
 
-if [ ! -f /recovery/openwrt-x86-64-combined-ext4.img.gz ]
+if [ ! -f /recovery/$IMG_FILE ]
     then
     mkdir /recovery/  > /dev/null 2>&1
     logger "RECOVERY: No local rom available, getting one for you!"
     download
     checksum
 
-elif [ -f /recovery/openwrt-x86-64-combined-ext4.img.gz ] && [ "$MD5ONLINE" == "$(md5sum /recovery/openwrt-x86-64-combined-ext4.img.gz | grep openwrt-x86-64-combined-ext4.img.gz | awk '{print $1}')" ]
+elif [ -f /recovery/$IMG_FILE ] && [ "$MD5ONLINE" == "$(md5sum /recovery/$IMG_FILE | grep $IMG_FILE | awk '{print $1}')" ]
         then
     logger "RECOVERY: You have the latest Built, No need to upgrade!"
 

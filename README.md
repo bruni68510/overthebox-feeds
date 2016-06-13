@@ -1,5 +1,7 @@
 # Overthebox
 
+BRANCH WITH 0.3.7 working on PI2.
+
 Overthebox is an open source solution developed by OVH to aggregate and encrypt multiple internet connections and terminates it over OVH/Cloud infrastructure which make clients benefit security, reliability, net neutrality, as well as dedicated public IP.
 
 The aggregation is based on MPTCP, which is ISP, WAN type, and latency independent "whether it was Fiber, VDSL, SHDSL, ADSL or even 4G, ", different scenarios can be configured to have either aggregation, load-balancing or failover based on MPTCP or even Openwrt mwan3 package.
@@ -13,28 +15,20 @@ More information is available here :
 
 ## Prerequisite
 
-* an x86 machine
-* CPU with AES-NI 
-* 2Gb of RAM
+* PI2
 
 
 ## Install from pre-compiled images
 
-Guide to install the image is available on (french) :
-[https://docs.ovh.com/pages/releaseview.action?pageId=18121070](https://docs.ovh.com/pages/releaseview.action?pageId=18121070)
+The version 0.3.7 has been successfull released for the PI2 downloads follows
 
-
-### image :
-[http://downloads.overthebox.ovh/trunk/x86/64/openwrt-x86-64-embedded-ext4.img.gz](http://downloads.overthebox.ovh/trunk/x86/64/openwrt-x86-64-embedded-ext4.img.gz)
-
-
-### virtualbox image :
-[http://downloads.overthebox.ovh/trunk/x86/64/openwrt-x86-64-combined-ext4.vdi](http://downloads.overthebox.ovh/trunk/x86/64/openwrt-x86-64-combined-ext4.vdi)
+### PI2 image :
+[http://www.bruni68510.me/overthebox/0.3.7/openwrt-brcm2708-bcm2709-rpi-2-b-ext4-sdcard.bin.gz](http://www.bruni68510.me/overthebox/0.3.7/openwrt-brcm2708-bcm2709-rpi-2-b-ext4-sdcard.bin.gz)
 
 
 ## Compile from source
 
-First, you need to clone our patched version of Openwrt which is available on github: [https://github.com/ovh/overthebox-openwrt](https://github.com/ovh/overthebox-openwrt)
+First, you need to clone our patched version of Openwrt which is available on github: [https://github.com/bruni68510/overthebox-openwrt](https://github.com/bruni68510/overthebox-openwrt)
 
 
 ### Preparation
@@ -43,7 +37,7 @@ First, you need to clone our patched version of Openwrt which is available on gi
 git clone https://github.com/ovh/overthebox-openwrt.git
 cd overthebox-openwrt
 cp feeds.conf.default feeds.conf
-echo src-git overthebox https://github.com/ovh/overthebox-feeds.git >> feeds.conf
+echo src-git overthebox https://github.com/bruni68510/overthebox-feeds.git >> feeds.conf
 ./scripts/feeds update -a
 ./scripts/feeds install -a -p overthebox
 ./scripts/feeds install -p overthebox -f netifd
@@ -101,5 +95,3 @@ sed -i "s/^CONFIG_PACKAGE_bmon=.*/# CONFIG_PACKAGE_bmon is not set/" .config
 Our solution is mainly based on : 
 * Openwrt : [https://openwrt.org](https://openwrt.org)
 * Multipath TCP : [https://multipath-tcp.org](https://multipath-tcp.org)
-
-
